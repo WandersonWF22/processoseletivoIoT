@@ -1,3 +1,5 @@
+import machine
+
 from machine import Pin, ADC
 import time
 
@@ -102,6 +104,6 @@ while True:
 
     if teste_finalizado:
         print("Teste finalizado.")
-        break
+        machine.deepsleep(1000)
 
 time.sleep(0.1)
