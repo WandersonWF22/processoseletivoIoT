@@ -29,7 +29,7 @@ estado_botao_anterior = 1
 teste_finalizado = False
 
 # Ajustado para os valores reais do Wokwi
-LIMITE_LUZ_BAIXA = 1000
+LIMITE_LUZ_BAIXA = 600
 
 TEMPO_MICRO_PARADA = 5
 
