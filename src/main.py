@@ -1,4 +1,5 @@
 import machine
+import sys
 
 from machine import Pin, ADC
 import time
@@ -24,7 +25,7 @@ micro_parada_alertada = False
 # Controle do botão
 estado_botao_anterior = 1
 
-#Finalizacao do teste
+# Finalizacao do teste
 teste_finalizado = False
 
 # Ajustado para os valores reais do Wokwi
@@ -40,10 +41,8 @@ while not teste_finalizado:
 
     valor_luz = ldr.read()
 
-
     # Detecta objeto bloqueando o LDR
     bloqueado = valor_luz < LIMITE_LUZ_BAIXA
-
 
     # Entrada da peça
     if bloqueado and not sensor_bloqueado:
@@ -52,23 +51,18 @@ while not teste_finalizado:
         inicio_bloqueio = time.time()
         micro_parada_alertada = False
 
-
     # Saída da peça
     elif not bloqueado and sensor_bloqueado:
 
         contador += 1
 
         print("Peca detectada! Total:", contador)
-        
+
         teste_finalizado = True
 
         sensor_bloqueado = False
         inicio_bloqueio = None
         micro_parada_alertada = False
-        
-
-
-
 
     # Detecção de micro-parada
     if sensor_bloqueado and inicio_bloqueio:
@@ -82,8 +76,6 @@ while not teste_finalizado:
             micro_parada_alertada = True
             teste_finalizado = True
 
-
-
     # Reset manual
     estado_botao = botao.value()
 
@@ -95,15 +87,13 @@ while not teste_finalizado:
         print("Turno resetado com sucesso. Contadores zerados.")
 
         teste_finalizado = True
-        
-        time.sleep(0.5)
-        
 
+        time.sleep(0.5)
 
     estado_botao_anterior = estado_botao
 
     if teste_finalizado:
         print("Teste finalizado.")
-        break
+        sys.exit()
 
     time.sleep(0.1)
