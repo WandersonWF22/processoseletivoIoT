@@ -1,9 +1,6 @@
 from machine import Pin, ADC
 import time
 
-#Configura modo teste
-MODO_TESTE = True
-
 # Sensor LDR no GPIO 34
 ldr = ADC(Pin(34))
 ldr.atten(ADC.ATTN_11DB)
@@ -70,7 +67,7 @@ while True:
 
 
 
-    # Detecção de micro-parada
+
     # Detecção de micro-parada
     if sensor_bloqueado and inicio_bloqueio:
 
@@ -103,8 +100,8 @@ while True:
 
     estado_botao_anterior = estado_botao
 
-    if MODO_TESTE and teste_finalizado:
+    if teste_finalizado:
         print("Teste finalizado.")
-    break
+        break
 
-    time.sleep(0.1)
+time.sleep(0.1)
