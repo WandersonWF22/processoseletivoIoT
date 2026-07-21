@@ -52,7 +52,7 @@
     ],
     [
       "btn1:2.l",
-      "esp:GND",
+      "esp:GND.1",
       "black",
       []
     ]

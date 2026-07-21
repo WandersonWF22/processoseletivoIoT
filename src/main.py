@@ -69,6 +69,8 @@ print("Contador de Producao Inicializado")
 while True:
 
     lux = ler_lux()
+    
+    print("Lux lido:", lux)
 
     # -------------------------
     # Detecção de peça
