@@ -1,6 +1,5 @@
 from machine import Pin, ADC
 import time
-import sys
 
 
 # =============================
@@ -37,7 +36,7 @@ estado_botao_anterior = 1
 # Parâmetros
 # =============================
 
-LIMITE_LUZ_BAIXA = 600
+LIMITE_LUZ_BAIXA = 1500
 
 TEMPO_MICRO_PARADA = 5000  # milissegundos
 
@@ -57,7 +56,7 @@ while True:
 
     valor_luz = ldr.read()
 
-    bloqueado = valor_luz < LIMITE_LUZ_BAIXA
+    bloqueado = valor_luz > LIMITE_LUZ_BAIXA
 
 
     # -------------------------
@@ -82,7 +81,7 @@ while True:
 
         contador += 1
 
-        print("Peca detectada! Total:", contador)
+        print("Peca detectada! Total: ", contador)
 
 
         sensor_bloqueado = False
@@ -90,11 +89,6 @@ while True:
         inicio_bloqueio = None
 
         micro_parada_alertada = False
-
-
-        # Finaliza cenário do CI
-        print("Teste finalizado.")
-        sys.exit()
 
 
 
@@ -117,10 +111,6 @@ while True:
             micro_parada_alertada = True
 
 
-            # Finaliza cenário do CI
-            print("Teste finalizado.")
-            sys.exit()
-
 
 
     # -------------------------
@@ -138,10 +128,6 @@ while True:
 
         print("Turno resetado com sucesso. Contadores zerados.")
 
-
-        # Finaliza cenário do CI
-        print("Teste finalizado.")
-        sys.exit()
 
 
     estado_botao_anterior = estado_botao
