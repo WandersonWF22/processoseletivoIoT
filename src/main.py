@@ -36,7 +36,7 @@ TEMPO_MICRO_PARADA = 5
 print("Contador de Producao Inicializado")
 
 
-while True:
+while not teste_finalizado:
 
     valor_luz = ldr.read()
 
@@ -104,6 +104,6 @@ while True:
 
     if teste_finalizado:
         print("Teste finalizado.")
-        machine.deepsleep(1000)
+        break
 
-time.sleep(0.1)
+    time.sleep(0.1)
