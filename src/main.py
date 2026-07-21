@@ -37,8 +37,6 @@ while True:
 
     valor_luz = ldr.read()
 
-    print("Lux lido:", valor_luz)
-
 
     # Detecta objeto bloqueando o LDR
     bloqueado = valor_luz < LIMITE_LUZ_BAIXA
@@ -65,6 +63,7 @@ while True:
 
 
 
+    # Detecção de micro-parada
     # Detecção de micro-parada
     if sensor_bloqueado and inicio_bloqueio:
 
