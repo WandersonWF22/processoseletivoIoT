@@ -120,14 +120,12 @@ while True:
     estado_botao = botao.value()
 
 
-    # Botão pressionado
-    if estado_botao == 0:
+    # Detecta apenas o momento em que o botão é pressionado
+    if estado_botao_anterior == 1 and estado_botao == 0:
 
         contador = 0
 
         print("Turno resetado com sucesso. Contadores zerados.")
-
-        time.sleep_ms(300)
 
 
     estado_botao_anterior = estado_botao
