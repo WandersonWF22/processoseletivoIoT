@@ -127,7 +127,7 @@ while True:
 
         if botao.value() == 0:
             contador = 0
-            print("Turno resetado com sucesso. Contadores zerados.")
+            print("Contadores resetados com sucesso.")
 
 
     estado_botao_anterior = estado_botao
