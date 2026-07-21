@@ -81,7 +81,7 @@ while True:
 
         contador += 1
 
-        print("Peca detectada! Total: ", contador)
+        print("Peca detectada! Total:", contador)
 
 
         sensor_bloqueado = False
@@ -120,14 +120,14 @@ while True:
     estado_botao = botao.value()
 
 
-    # Detecta transição pressionado
-    if estado_botao_anterior == 1 and estado_botao == 0:
+    # Botão pressionado
+    if estado_botao == 0:
 
         contador = 0
 
-
         print("Turno resetado com sucesso. Contadores zerados.")
 
+        time.sleep_ms(300)
 
 
     estado_botao_anterior = estado_botao
