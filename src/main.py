@@ -1,6 +1,8 @@
 from machine import Pin, ADC
 import time
 
+#Configura modo teste
+MODO_TESTE = True
 
 # Sensor LDR no GPIO 34
 ldr = ADC(Pin(34))
@@ -23,6 +25,8 @@ micro_parada_alertada = False
 # Controle do botão
 estado_botao_anterior = 1
 
+#Finalizacao do teste
+teste_finalizado = False
 
 # Ajustado para os valores reais do Wokwi
 LIMITE_LUZ_BAIXA = 1000
@@ -56,10 +60,13 @@ while True:
         contador += 1
 
         print("Peca detectada! Total:", contador)
+        
+        teste_finalizado = True
 
         sensor_bloqueado = False
         inicio_bloqueio = None
         micro_parada_alertada = False
+        
 
 
 
@@ -74,6 +81,7 @@ while True:
             print("Alerta: Micro-parada detectada!")
 
             micro_parada_alertada = True
+            teste_finalizado = True
 
 
 
@@ -87,10 +95,16 @@ while True:
 
         print("Turno resetado com sucesso. Contadores zerados.")
 
+        teste_finalizado = True
+        
         time.sleep(0.5)
+        
 
 
     estado_botao_anterior = estado_botao
 
+    if MODO_TESTE and teste_finalizado:
+        print("Teste finalizado.")
+    break
 
     time.sleep(0.1)
