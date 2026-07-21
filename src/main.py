@@ -119,16 +119,14 @@ while True:
 
     estado_botao = botao.value()
 
-
-    # Detecta apenas o momento em que o botão é pressionado
-    if estado_botao_anterior == 1 and estado_botao == 0:
+    # Detecta a liberação do botão (0 -> 1)
+    if estado_botao_anterior == 0 and estado_botao == 1:
 
         time.sleep_ms(20)  # debounce
 
-        if botao.value() == 0:
+        if botao.value() == 1:
             contador = 0
             print("Contadores resetados com sucesso.")
-
 
     estado_botao_anterior = estado_botao
 
