@@ -21,5 +21,3 @@ steps:
   # 4. O sistema deve interceptar a interrupção/leitura do botão e limpar os dados atuais
   # Substitua pela mensagem correspondente que o seu código imprime ao resetar
   - wait-serial: 'Turno resetado com sucesso. Contadores zerados.'
-  
-  - delay: 500ms

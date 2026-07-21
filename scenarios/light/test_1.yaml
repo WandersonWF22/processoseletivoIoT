@@ -28,5 +28,3 @@ steps:
   # 5. O sistema deve processar a transição e exibir a contagem atualizada
   # Ajuste a string abaixo de acordo com o padrão do log do seu firmware
   - wait-serial: 'Peca detectada! Total: 1'
-  
-  - delay: 500ms
