@@ -1,130 +1,83 @@
 from machine import Pin, ADC
 import time
 
-# -----------------------------
-# Configuração dos componentes
-# -----------------------------
 
-# Sensor LDR
+# Sensor LDR no GPIO 34
 ldr = ADC(Pin(34))
 ldr.atten(ADC.ATTN_11DB)
 
-# Botão de reset
+
+# Botão no GPIO 27
 botao = Pin(27, Pin.IN, Pin.PULL_UP)
 
 
-# -----------------------------
-# Variáveis do sistema
-# -----------------------------
-
 contador = 0
 
-sensor_bloqueado = False
-inicio_bloqueio = 0
-micro_parada_alertada = False
+# Guarda se uma peça já foi detectada
+objeto_detectado = False
 
-estado_botao_anterior = 1
+# Controle da parada
+inicio_parada = None
 
-
-# Limites
-LUX_BAIXO = 100
-TEMPO_MICRO_PARADA = 5000  # 5 segundos
-
-
-# -----------------------------
-# Funções auxiliares
-# -----------------------------
-
-def ler_lux():
-    """
-    Converte a leitura analógica do LDR
-    para uma escala aproximada de lux.
-    """
-    valor = ldr.read()
-    
-    # Conversão simples para simulação
-    lux = int((valor / 4095) * 1000)
-    
-    return lux
-
-
-def reset_turno():
-    global contador
-    contador = 0
-    
-    print("Turno resetado com sucesso. Contadores zerados.")
-
-
-# -----------------------------
-# Inicialização
-# -----------------------------
 
 print("Contador de Producao Inicializado")
 
 
-# -----------------------------
-# Loop principal
-# -----------------------------
-
 while True:
 
-    lux = ler_lux()
-    
-    print("Lux lido:", lux)
+    # Leitura do sensor
+    valor_luz = ldr.read()
 
-    # -------------------------
-    # Detecção de peça
-    # -------------------------
-
-    if lux < LUX_BAIXO:
-
-        if not sensor_bloqueado:
-            sensor_bloqueado = True
-            inicio_bloqueio = time.ticks_ms()
-
-    else:
-
-        # Retorno da luz normaliza
-        if sensor_bloqueado:
-
-            contador += 1
-
-            print(f"Peca detectada! Total: {contador}")
-
-            sensor_bloqueado = False
-            micro_parada_alertada = False
+    print("Lux lido:", valor_luz)
 
 
-    # -------------------------
-    # Detecção de micro-parada
-    # -------------------------
+    # Quando a luz cai, consideramos que uma peça bloqueou o sensor
+    # O valor pode variar no Wokwi, por isso usamos 400 como referência
+    bloqueado = valor_luz < 400
 
-    if sensor_bloqueado:
 
-        tempo = time.ticks_diff(
-            time.ticks_ms(),
-            inicio_bloqueio
-        )
+    # Detecta uma nova peça
+    if bloqueado and not objeto_detectado:
 
-        if tempo >= TEMPO_MICRO_PARADA and not micro_parada_alertada:
+        contador += 1
+
+        print("Peca detectada! Total:", contador)
+
+        objeto_detectado = True
+
+
+    # Quando a peça sai
+    if not bloqueado:
+
+        objeto_detectado = False
+
+        inicio_parada = None
+
+
+    # Detecta micro-parada
+    if bloqueado:
+
+        if inicio_parada is None:
+            inicio_parada = time.time()
+
+
+        elif time.time() - inicio_parada >= 5:
 
             print("Alerta: Micro-parada detectada!")
 
-            micro_parada_alertada = True
+            # evita imprimir infinitamente
+            inicio_parada = time.time()
 
 
-    # -------------------------
-    # Botão de reset
-    # -------------------------
 
-    estado_botao = botao.value()
+    # Reset manual
+    if botao.value() == 0:
 
-    # Detecta mudança pressionado -> solto
-    if estado_botao_anterior == 0 and estado_botao == 1:
+        contador = 0
 
-        reset_turno()
+        print("Turno resetado com sucesso. Contadores zerados.")
 
-    estado_botao_anterior = estado_botao
+        time.sleep(1)
 
 
-    time.sleep_ms(50)
+    time.sleep(0.1)
